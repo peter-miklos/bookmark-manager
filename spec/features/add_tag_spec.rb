@@ -6,5 +6,7 @@ feature 'creating tags' do
     add_link_no_submit
     fill_in('tag', with: 'coding')
     click_button('Add Link')
+    link = Link.first
+    expect(link.tags.map(&:name)).to include('coding')
   end
 end
