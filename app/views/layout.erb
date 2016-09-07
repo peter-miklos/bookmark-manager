@@ -6,7 +6,15 @@
 
   <body>
     <%= "Welcome, #{current_user.name}" if current_user %>
-    <div id='notice'><%= flash[:errors] if flash[:errors] %></div>
+    <% if flash[:errors] %>
+    <ul id="errors">
+      <% flash[:errors].each do |e| %>
+        <li><%= e %></li>
+      <% end %>
+    </ul>
+    <% else %>
+    <%= flash[:notice] %>
+    <% end %>
     <%= yield %>  <!-- this then yields to the view which has been called by your controller -->
   </body>
 </html>
