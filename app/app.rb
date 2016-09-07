@@ -1,6 +1,5 @@
 require 'sinatra/base'
 require_relative 'data_mapper_setup'
-require 'database_cleaner'
 
 ENV["RACK_ENV"] ||= "development"
 
@@ -28,11 +27,6 @@ end
     tag = Tag.first(name: params[:name])
     @links = tag ? tag.links : []
     erb :'links/index'
-  end
-
-  get '/clean' do
-    DatabaseCleaner.clean_with(:truncation)
-    redirect '/links'
   end
 
   # start the server if ruby file executed directly
