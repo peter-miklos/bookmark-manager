@@ -8,7 +8,12 @@ class User
 
   property :id, Serial
   property :name, String
-  property :email, String, required: true, format: :email_address
+  property :email, String, required: true, format: :email_address, unique: true,
+    messages: {
+      is_unique: "We already have that email",
+      format: "Doesn't look like an email address",
+      presence: "Email is required."
+    }
   property :password_digest, BCryptHash
 
   attr_accessor :password_confirmation

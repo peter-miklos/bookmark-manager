@@ -16,7 +16,7 @@ feature 'User accounts' do
     click_button 'Sign up'
 
     expect(current_path).to eq('/users')
-    expect(page).to have_content('Password and confirmation password do not match')
+    expect(page).to have_content('Password does not match the confirmation')
     expect(User.all).to be_empty
   end
 
@@ -33,6 +33,18 @@ feature 'User accounts' do
     click_button 'Sign up'
     expect(current_path).to eq ('/users')
     expect(User.all).to be_empty
+  end
+
+  scenario 'user tries to sign up with an already existing email' do
+    2.times do
+      add_user_with_no_confirm
+      fill_in :password_confirmation, with: 'bananas_is_my_password'
+      click_button 'Sign up'
+    end
+
+    expect(current_path).to eq('/users')
+    expect(User.all(name: "Tam").size).to eq 1
+    expect(page).to have_content("We already have that email")
   end
 
 end
