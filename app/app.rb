@@ -1,7 +1,8 @@
+ENV["RACK_ENV"] ||= "development"
 require 'sinatra/base'
 require_relative 'data_mapper_setup'
 
-ENV["RACK_ENV"] ||= "development"
+
 
 class Bookmark < Sinatra::Base
 
@@ -24,15 +25,11 @@ post '/add-link' do
 end
 
   get '/tags/:name' do
-    tag = Tag.first(name: params[:name])
+    tag = Tag.all(name: params[:name])
     @links = tag ? tag.links : []
     erb :'links/index'
   end
 
-  get '/clean' do
-    DatabaseCleaner.clean_with(:truncation)
-    redirect '/links'
-  end
 
   # start the server if ruby file executed directly
   run! if app_file == $0
