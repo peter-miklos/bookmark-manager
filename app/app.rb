@@ -30,6 +30,18 @@ end
     erb :'links/index'
   end
 
+  get '/sign_up' do
+    erb :'users/sign_up'
+  end
+
+  post '/welcome' do
+    redirect '/welcome'
+  end
+
+  get '/welcome' do
+    erb :'users/welcome'
+  end
+
   # start the server if ruby file executed directly
   run! if app_file == $0
 end
