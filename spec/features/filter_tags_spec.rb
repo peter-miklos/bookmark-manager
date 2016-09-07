@@ -19,6 +19,4 @@ feature 'let you filter tags for links' do
     end
 
   end
-
-
 end
