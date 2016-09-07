@@ -1,6 +1,5 @@
 require 'sinatra/base'
 require_relative 'data_mapper_setup'
-require 'database_cleaner'
 
 ENV["RACK_ENV"] ||= "development"
 
