@@ -18,8 +18,9 @@ feature 'let a user sign up' do
     fill_in('password', with: 'ilovecoffeealot')
     fill_in('password_confirmation', with: 'iloveteaalot')
     click_button('Sign Up')
-    # expect(page).to have_content('Password mismatch')
+    expect(page).to have_content('Password mismatch')
     expect(User.count).to eq 0
+    expect(find_field('email').value).to eq('joseph@coffeenutcase.com')
   end
 
 

@@ -1,9 +1,16 @@
+
 <html>
   <head>
     <title>Bookmark Manager</title>
   </head>
 
   <body>
+
+    <% if flash[:error] %>
+      <% flash[:error].each do |e| %>
+        <p> <%= e %> </p>
+      <% end %>
+    <% end %>
       <%= "Welcome #{@the_user.email}" if the_user %>
       <%= yield %>
   </body>
