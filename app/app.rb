@@ -43,7 +43,9 @@ set :session_secret, 'super secret'
   end
 
   post '/welcome' do
-    user = User.new(email: params[:email], password: params[:password])
+    user = User.new(email: params[:email],
+              password: params[:password],
+              password_confirmation: params[:password_confirmation])
     user.save
     session[:id] = user.id
     redirect '/links'
