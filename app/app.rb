@@ -5,6 +5,14 @@ require_relative 'data_mapper_setup'
 
 
 class Bookmark < Sinatra::Base
+enable :sessions
+set :session_secret, 'super secret'
+
+  helpers do
+    def the_user
+      @the_user ||= User.get(session[:id])
+    end
+  end
 
   get '/links' do
     @links = Link.all
@@ -15,14 +23,14 @@ class Bookmark < Sinatra::Base
     erb :'links/new'
   end
 
-post '/add-link' do
-  link = Link.new(:title => params[:title], :url => params[:url])
-  params[:tag].split(", ").each do |tag|
-    link.tags << Tag.create(name: tag)
+  post '/add-link' do
+    link = Link.new(:title => params[:title], :url => params[:url])
+    params[:tag].split(", ").each do |tag|
+      link.tags << Tag.create(name: tag)
+    end
+    link.save
+    redirect '/links'
   end
-  link.save
-  redirect '/links'
-end
 
   get '/tags/:name' do
     tag = Tag.all(name: params[:name])
@@ -35,12 +43,12 @@ end
   end
 
   post '/welcome' do
-    redirect '/welcome'
+    user = User.new(email: params[:email], password: params[:password])
+    user.save
+    session[:id] = user.id
+    redirect '/links'
   end
 
-  get '/welcome' do
-    erb :'users/welcome'
-  end
 
   # start the server if ruby file executed directly
   run! if app_file == $0

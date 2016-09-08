@@ -12,3 +12,5 @@ group :test do
   gem 'rspec-sinatra'
   gem 'database_cleaner'
 end
+
+gem 'bcrypt', '3.1.11'
