@@ -23,7 +23,7 @@ feature 'let a user sign up' do
     add_password_twice
     click_button('Sign Up')
     expect(User.count).to eq 0
-    expect(page).to have_content('Email is mandatory')
+    expect(page).to have_content('Email must not be blank')
   end
 
   scenario 'user tries to sign up with a non valid email address' do
@@ -31,7 +31,7 @@ feature 'let a user sign up' do
     fill_in('email', with: 'joseph@coffeenutcase')
     click_button('Sign Up')
     expect(User.count).to eq 0
-    expect(page).to have_content("Doesn't look like an email address")
+    expect(page).to have_content("Email has an invalid format")
   end
 
   scenario 'user sign up with existing email' do
@@ -41,7 +41,7 @@ feature 'let a user sign up' do
       click_button('Sign Up')
     end
     expect(User.count).to eq 1
-    expect(page).to have_content("We already have that email")
+    expect(page).to have_content("Email is already taken")
   end
 
 
