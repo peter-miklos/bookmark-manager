@@ -23,5 +23,24 @@ feature 'let a user sign up' do
     expect(find_field('email').value).to eq('joseph@coffeenutcase.com')
   end
 
+  scenario 'user tries to sign up with no email address' do
+    visit '/sign_up'
+    fill_in('password', with: 'ilovecoffeealot')
+    fill_in('password_confirmation', with: 'ilovecoffeealot')
+    click_button('Sign Up')
+    expect(User.count).to eq 0
+    expect(page).to have_content('Email is mandatory')
+  end
+
+  scenario 'user tries to sign up with a non valid email address' do
+    visit '/sign_up'
+    fill_in('email', with: 'joseph@coffeenutcase')
+    fill_in('password', with: 'ilovecoffeealot')
+    fill_in('password_confirmation', with: 'ilovecoffeealot')
+    click_button('Sign Up')
+    expect(User.count).to eq 0
+    expect(page).to have_content("Doesn't look like an email address")
+  end
+
 
 end
