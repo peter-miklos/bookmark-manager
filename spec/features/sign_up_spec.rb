@@ -42,5 +42,20 @@ feature 'let a user sign up' do
     expect(page).to have_content("Doesn't look like an email address")
   end
 
+  scenario 'user sign up with existing email' do
+    visit '/sign_up'
+    fill_in('email', with: 'joseph@coffeenutcase.com')
+    fill_in('password', with: 'ilovecoffeealot')
+    fill_in('password_confirmation', with: 'ilovecoffeealot')
+    click_button('Sign Up')
+    visit '/sign_up'
+    fill_in('email', with: 'joseph@coffeenutcase.com')
+    fill_in('password', with: 'ilovecoffeealot')
+    fill_in('password_confirmation', with: 'ilovecoffeealot')
+    click_button('Sign Up')
+    expect(User.count).to eq 1
+    expect(page).to have_content("We already have that email")
+  end
+
 
 end
