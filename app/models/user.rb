@@ -8,7 +8,7 @@ class User
   property :id,     Serial
   property :email,  String, :required => true, :unique => true
   property :password_digest, Text
-  property :password_token, String, length: 60
+  property :password_token, Text
 
   attr_accessor :password_confirmation
   attr_reader :password

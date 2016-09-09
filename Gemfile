@@ -1,19 +1,18 @@
 source "https://rubygems.org"
 
-# ruby '2.3.1'
+ruby '2.3.1'
 
 gem 'data_mapper'
 gem 'dm-postgres-adapter'
 gem 'sinatra'
 gem 'sinatra-flash'
-gem 'database_cleaner'
+gem 'sinatra-partial'
 gem 'rake'
 gem 'bcrypt'
 gem 'timecop'
 
 group :test do
+  gem 'database_cleaner'
   gem 'capybara'
   gem 'rspec'
 end
-
-gem 'sinatra-partial', '1.0.0'

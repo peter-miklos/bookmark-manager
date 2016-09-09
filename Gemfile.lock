@@ -116,7 +116,7 @@ DEPENDENCIES
   rspec
   sinatra
   sinatra-flash
-  sinatra-partial (= 1.0.0)
+  sinatra-partial
   timecop
 
 BUNDLED WITH
