@@ -7,11 +7,24 @@
   <body>
 
     <% if flash[:error] %>
-      <% flash[:error].each do |e| %>
-        <p> <%= e %> </p>
-      <% end %>
+      <div id="error"
+        <% flash[:error].each do |e| %>
+          <p> <%= e %> </p>
+        <% end %>
+      </div>
     <% end %>
-      <%= "Welcome #{@the_user.email}" if the_user %>
-      <%= yield %>
+    <% if flash[:notice] %>
+      <div id="notice">
+        <%= flash[:notice] %>
+      </div>
+    <% end %>
+    <% if the_user %>
+      <%= "Welcome #{@the_user.email}" %>
+      <form action="/sessions" method="post">
+        <input name="_method" type="hidden" value="delete" />
+        <input type="submit" value="Sign Out"/>
+      </form>
+    <% end %>
+    <%= yield %>
   </body>
 </html>

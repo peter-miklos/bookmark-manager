@@ -14,4 +14,13 @@ class User
 
   validates_confirmation_of :password,
     :message => 'Password mismatch'
+
+  def self.authenticate(email, login_password)
+    user = last(email: email)
+    if user && BCrypt::Password.new(user.password) == login_password
+      user
+    else
+      nil
+    end
+  end
 end
