@@ -6,9 +6,18 @@
   <body>
     <% if current_user %>
     Welcome, <%= current_user.email %>
+    <form method="post" action="/sessions/sign_out">
+        <input type="hidden" name="_method" value="delete">
+        <button type="submit">Sign out</button>
+    </form>
     <% end %>
     <% if flash[:notice] %>
       <p><%= flash[:notice] %></p>
+    <% end %>
+    <% if flash[:errors] %>
+      <% flash[:errors].each do |error| %>
+      <p><%= error %></p>
+      <% end %>
     <% end %>
 
     <%= yield %>

@@ -1,7 +1,6 @@
 class BookMark < Sinatra::Base
 
   get '/users/new' do
-    @error_msg = flash[:notice]
     @current_email = session[:user_email]
     erb :'users/new'
   end
@@ -32,15 +31,35 @@ class BookMark < Sinatra::Base
     redirect '/links'
   end
 
-  get '/users/password_reset' do
-    #check token = token and time < time(0)+1hr
-    #allow to enter new password
-    erb :'users/password_reset'
+  get '/users/password_recover' do
+    erb :'users/password_recover'
   end
 
-  post '/users/password_reset' do
-    #store new password
-    redirect '/links'
+  post '/users/password_recover' do
+    user = User.first(email: params[:email])
+    user.generate_token if user
+    erb :'/users/aknowledgement'
   end
 
+  get "/users/password_reset" do
+    @user = User.find_by_valid_token(params[:token])
+    if @user
+      session[:token] = params[:token]
+      erb :"/users/password_reset"
+    else
+      "Your token is invalid"
+    end
+  end
+
+  patch "/users" do
+    user = User.find_by_valid_token(session[:token])
+    if user.update(password: params[:password], password_confirmation: params[:password_confirmation])
+      session[:token] = nil
+      user.update(password_token: nil)
+      redirect "/sessions/new"
+    else
+      flash.now[:errors] = user.errors.full_messages
+      erb :'users/password_reset'
+    end
+  end
 end
